@@ -64,6 +64,7 @@ h1 {
   -moz-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-size:120%;
 }
 
 .redblue {
@@ -73,6 +74,7 @@ h1 {
   -ms-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-size:120%;
 }
 
 .cell:hover {
