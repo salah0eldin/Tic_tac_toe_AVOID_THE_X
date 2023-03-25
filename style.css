@@ -167,7 +167,7 @@ label {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, auto);
-  grid-gap: 10px;
+  grid-gap: 1px;
 }
 
 .radioo:nth-child(1),
