@@ -165,7 +165,7 @@ label {
 
 #radios {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, auto);
   grid-gap: 10px;
 }
@@ -195,6 +195,6 @@ label {
   }
 
   h1 {
-    margin-top:140%;
+    margin-top:125%;
   }
 }
