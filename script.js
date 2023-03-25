@@ -4,6 +4,7 @@ const cells = document.querySelectorAll(".cell");
 const startGameButton = document.getElementById("start-game");
 const gameTypeRadios = document.getElementsByName("game-type");
 const gameModeRadios = document.getElementsByName("game-mode");
+const gridn = document.getElementsByName("gridn");
 const messageElement = document.getElementById("game-message");
 
 // game variables
@@ -14,12 +15,12 @@ let gameType;
 let gameMode;
 let board;
 let togglecount = false;
-let endd = false;
-
+let endd = true;
+let gridnum;
 // add event listeners to buttons
 startGameButton.addEventListener("click", startGame);
-window.onload = startGame;
 
+//check if game type radioo pressed and if single change
 gameModeRadios.forEach((radioo) => {
   radioo.addEventListener('click', () => {
     if (!endd) {
@@ -31,6 +32,19 @@ gameModeRadios.forEach((radioo) => {
         else
           computerMoveR();
       }
+    }
+  })
+});
+
+//check if grid number is changed after end
+gridn.forEach((gridd) => {
+  gridd.addEventListener('click', () => {
+    if (endd) {
+      gridnum = getSelectedRadioValue(gridn);
+      if (gridnum === "33")
+        window.location.replace("index.html");
+      else
+        window.location.replace("index44.html");
     }
   })
 });
