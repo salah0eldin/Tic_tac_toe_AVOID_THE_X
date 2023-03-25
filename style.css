@@ -179,22 +179,3 @@ label {
 .radioo:nth-child(4) {
   grid-row: 2;
 }
-
-@media only screen and (max-width: 1000px) {
-  .container {
-    scale: 1.8;
-  }
-
-  h1 {
-    margin-top:90%;
-  }
-}
-@media only screen and (max-device-width: 599px) and (orientation: portrait) {
-  .container {
-    scale: 2.2;
-  }
-
-  h1 {
-    margin-top:125%;
-  }
-}
