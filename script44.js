@@ -40,7 +40,8 @@ gridn.forEach((gridd) => {
   gridd.addEventListener('click', () => {
       gridnum = getSelectedRadioValue(gridn);
       if (gridnum === "33")
-        window.location.replace("index.html");
+        //window.location.replace("index.html");
+        window.history.back();
       else
         window.location.replace("index44.html");
   })
