@@ -43,7 +43,7 @@ gridn.forEach((gridd) => {
       if (gridnum === "33")
         window.location.replace("index.html");
       else
-        window.location.replace("index44.html");
+        window.open("index44.html","_blank");
   })
 });
 
