@@ -1,0 +1,12 @@
+CACHE MANIFEST
+# Version 1.0.0
+
+CACHE:
+index.html
+index44.html
+style.css
+script.js
+script44.js
+
+FALLBACK:
+/ /offline.html
