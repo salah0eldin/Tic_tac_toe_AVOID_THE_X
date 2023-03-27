@@ -52,6 +52,9 @@ gridn.forEach((gridd) => {
 // start a new game
 function startGame() {
   endd = false;
+  gridnum = getSelectedRadioValue(gridn);
+  if (gridnum === "44")
+    window.location.replace("index44.html");
   gameType = getSelectedRadioValue(gameTypeRadios);
   gameMode = getSelectedRadioValue(gameModeRadios);
   board = ["", "", "", "", "", "", "", "", ""];
@@ -130,11 +133,10 @@ function playMove(index) {
 function computerMove() {
   let bestScore = -Infinity;
   let move;
-
   for (let i = 0; i < 9; i++) {
     if (board[i] === '') {
       board[i] = currentPlayer;
-      const score = minimax(board, 0, false, currentPlayer);
+      const score = minimax(board, 0, false, currentPlayer, -Infinity, Infinity);
       board[i] = '';
       if (score > bestScore) {
         bestScore = score;
@@ -145,7 +147,7 @@ function computerMove() {
   playMove(move);
 }
 
-function minimax(board, depth, isMaximizingPlayer, playerMark) {
+function minimax(board, depth, isMaximizingPlayer, playerMark, alpha, beta) {
   let opponentMark;
   playerMark === 'X' ? opponentMark = 'O' : opponentMark = 'X';
   if (checkForWinner(board, playerMark)) {
@@ -161,9 +163,13 @@ function minimax(board, depth, isMaximizingPlayer, playerMark) {
     for (let i = 0; i < board.length; i++) {
       if (board[i] === '') {
         board[i] = playerMark;
-        const score = minimax(board, depth + 1, false, playerMark);
+        const score = minimax(board, depth + 1, false, playerMark, alpha, beta);
         board[i] = '';
         bestScore = Math.max(bestScore, score);
+        alpha = Math.max(alpha, bestScore);
+        if (beta <= alpha) {
+          break;
+        }
       }
     }
     return bestScore;
@@ -172,14 +178,19 @@ function minimax(board, depth, isMaximizingPlayer, playerMark) {
     for (let i = 0; i < board.length; i++) {
       if (board[i] === '') {
         board[i] = opponentMark;
-        const score = minimax(board, depth + 1, true, playerMark);
+        const score = minimax(board, depth + 1, true, playerMark, alpha, beta);
         board[i] = '';
         bestScore = Math.min(bestScore, score);
+        beta = Math.min(beta, bestScore);
+        if (beta <= alpha) {
+          break;
+        }
       }
     }
     return bestScore;
   }
 }
+
 
 function computerMoveR() {
   let bestScore = Infinity;
@@ -232,6 +243,7 @@ function minimaxR(board, depth, isMinimizingPlayer) {
   }
 
 }
+
 function checkForWinner(board, mark) {
   const winningCombos = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
