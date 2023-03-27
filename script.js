@@ -39,11 +39,13 @@ gameModeRadios.forEach((radioo) => {
 //check if grid number is changed after end
 gridn.forEach((gridd) => {
   gridd.addEventListener('click', () => {
+    if (endd) {
       gridnum = getSelectedRadioValue(gridn);
       if (gridnum === "33")
         window.location.replace("index.html");
       else
-        window.open("index44.html","_blank");
+        window.location.replace("index44.html");
+    }
   })
 });
 
