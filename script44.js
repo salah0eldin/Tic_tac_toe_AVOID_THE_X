@@ -151,9 +151,9 @@ function minimax(board, depth, isMaximizingPlayer, playerMark, alpha, beta) {
   let opponentMark;
   playerMark === 'X' ? opponentMark = 'O' : opponentMark = 'X';
   if (checkForWinner(board, playerMark)) {
-    return 6 - depth;
+    return 8 - depth;
   } else if (checkForWinner(board, opponentMark)) {
-    return depth - 6;
+    return depth - 8;
   } else if (depth == 7 || !board.includes('')) {
     return 0;
   }
@@ -213,11 +213,11 @@ function computerMoveR() {
 function minimaxR(board, depth, isMinimizingPlayer, alpha, beta) {
   if (checkForWinner(board, currentPlayer)) {
     if (!isMinimizingPlayer)
-      return 6 - depth;
+      return 8 - depth;
     else
-      return depth - 6;
+      return depth - 8;
   }
-  else if (depth == 5 || !board.includes(''))
+  else if (depth == 7 || !board.includes(''))
     return 0;
   if (isMinimizingPlayer) {
     let bestScore = Infinity;
