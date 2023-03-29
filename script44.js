@@ -151,10 +151,10 @@ function minimax(board, depth, isMaximizingPlayer, playerMark, alpha, beta) {
   let opponentMark;
   playerMark === 'X' ? opponentMark = 'O' : opponentMark = 'X';
   if (checkForWinner(board, playerMark)) {
-    return 11 - depth;
+    return 6 - depth;
   } else if (checkForWinner(board, opponentMark)) {
-    return depth - 11;
-  } else if (depth == 9 || !board.includes('')) {
+    return depth - 6;
+  } else if (depth == 7 || !board.includes('')) {
     return 0;
   }
 
