@@ -135,7 +135,8 @@ function playMove(index) {
 function computerMove() {
   let bestScore = -Infinity;
   let move;
-  for (let i = 0; i < 9; i++) {
+  indexs.sort(() => Math.random() - 0.5);
+  for (let i of indexs) {
     if (board[i] === '') {
       board[i] = currentPlayer;
       const score = minimax(board, 0, false, currentPlayer, -Infinity, Infinity);
@@ -153,9 +154,9 @@ function minimax(board, depth, isMaximizingPlayer, playerMark, alpha, beta) {
   let opponentMark;
   playerMark === 'X' ? opponentMark = 'O' : opponentMark = 'X';
   if (checkForWinner(board, playerMark)) {
-    return 10 - depth;
+    return 11 - depth;
   } else if (checkForWinner(board, opponentMark)) {
-    return depth - 10;
+    return depth - 11;
   } else if (!board.includes('')) {
     return 0;
   }
