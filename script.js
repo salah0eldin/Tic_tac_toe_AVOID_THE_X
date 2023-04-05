@@ -18,9 +18,7 @@ let togglecount = false;
 let endd = true;
 let gridnum;
 let indexs = [0,1,2,3,4,5,6,7,8];
-function shuffle(array) {
-  array.sort(() => Math.random() - 0.5);
-}
+
 // add event listeners to buttons
 startGameButton.addEventListener("click", startGame);
 
@@ -199,7 +197,7 @@ function minimax(board, depth, isMaximizingPlayer, playerMark, alpha, beta) {
 function computerMoveR() {
   let bestScore = Infinity;
   let move;
-  shuffle(indexs);
+  indexs.sort(() => Math.random() - 0.5);
   for (let i of indexs) {
     if (board[i] === '') {
       board[i] = currentPlayer;
