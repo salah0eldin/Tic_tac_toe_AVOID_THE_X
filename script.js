@@ -17,6 +17,8 @@ let board;
 let togglecount = false;
 let endd = true;
 let gridnum;
+let indexs = [0,1,2,3,4,5,6,7,8];
+
 // add event listeners to buttons
 startGameButton.addEventListener("click", startGame);
 
@@ -195,7 +197,8 @@ function minimax(board, depth, isMaximizingPlayer, playerMark, alpha, beta) {
 function computerMoveR() {
   let bestScore = Infinity;
   let move;
-  for (let i = 0; i < board.length; i++) {
+  shuffle(indexs);
+  for (let i of indexs) {
     if (board[i] === '') {
       board[i] = currentPlayer;
       let score = minimaxR(board, 0, false);
