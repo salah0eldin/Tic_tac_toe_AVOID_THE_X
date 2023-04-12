@@ -49,6 +49,45 @@ gridn.forEach((gridd) => {
   })
 });
 
+let ordermoves = [];
+
+document.getElementById("Undo").addEventListener("click", function () {
+  let n = 1;
+  if ((currentPlayerCC === currentPlayerC || !endd) && gameMode === 'single')
+    n = 2;
+
+  if ((n === 1 && !endd) || (n == 2 && endd)) {
+    if (gameType === 'regular')
+      currentPlayer = currentPlayer === "X" ? "O" : "X";
+    currentPlayerC = currentPlayerC === "Black" ? "Blue" : "Black";
+  }
+  if (gameType === "regular")
+    updateGameMessage(`Player ${currentPlayer}'s turn`);
+  else
+    updateGameMessage(`${currentPlayerC}'s turn`);
+  for (; n > 0; n--) {
+    let x = ordermoves.pop();
+    board[x] = '';
+    cells[x].textContent = "";
+    cells[x].style.color = 'black';
+    if (endd) {
+      endd = false;
+      cells.forEach((cell) => {
+        cell.classList.remove('redblue');
+        cell.classList.remove('redblack');
+        cell.addEventListener("click", handleCellClick);
+      });
+      if (gameType === 'regular')
+        cells.forEach((cell) => {
+          if (cell.textContent === 'X')
+            cell.style.color = 'black';
+          else if (cell.textContent == 'O')
+            cell.style.color = 'blue';
+        });
+    }
+  }
+});
+
 // start a new game
 function startGame() {
   endd = false;
@@ -96,6 +135,7 @@ function startGame() {
 
 // play a move
 function playMove(index) {
+  ordermoves.push(index);
   board[index] = currentPlayer;
   cells[index].textContent = currentPlayer;
   if (currentPlayerC === "Blue")
@@ -133,8 +173,7 @@ function playMove(index) {
 function computerMove() {
   let bestScore = -Infinity;
   let move;
-
-  indexs.sort(() => Math.random() - 0.5);
+ // indexs.sort(() => Math.random() - 0.5);
   for (let i of indexs) {
     if (board[i] === '') {
       board[i] = currentPlayer;
@@ -153,10 +192,10 @@ function minimax(board, depth, isMaximizingPlayer, playerMark, alpha, beta) {
   let opponentMark;
   playerMark === 'X' ? opponentMark = 'O' : opponentMark = 'X';
   if (checkForWinner(board, playerMark)) {
-    return 8 - depth;
+    return 10 - depth;
   } else if (checkForWinner(board, opponentMark)) {
-    return depth - 8;
-  } else if (depth == 7 || !board.includes('')) {
+    return depth - 10;
+  } else if (depth == 5 || !board.includes('')) {
     return 0;
   }
 
@@ -194,17 +233,17 @@ function minimax(board, depth, isMaximizingPlayer, playerMark, alpha, beta) {
 }
 
 function computerMoveR() {
-  let bestScore = Infinity;
+  let bestScore = -Infinity;
   let move;
   let alpha = -Infinity;
   let beta = Infinity;
-  indexs.sort(() => Math.random() - 0.5);
+  //indexs.sort(() => Math.random() - 0.5);
   for (let i of indexs) {
     if (board[i] === '') {
       board[i] = currentPlayer;
       let score = minimaxR(board, 0, false, alpha, beta);
       board[i] = '';
-      if (score < bestScore) {
+      if (score > bestScore) {
         bestScore = score;
         move = i;
       }
@@ -213,24 +252,24 @@ function computerMoveR() {
   playMove(move);
 }
 
-function minimaxR(board, depth, isMinimizingPlayer, alpha, beta) {
+function minimaxR(board, depth, isMaximizingPlayer, alpha, beta) {
   if (checkForWinner(board, currentPlayer)) {
-    if (!isMinimizingPlayer)
-      return 8 - depth;
+    if (isMaximizingPlayer)
+      return 10 - depth;
     else
-      return depth - 8;
+      return depth - 10;
   }
-  else if (depth == 7 || !board.includes(''))
+  else if (depth == 5)
     return 0;
-  if (isMinimizingPlayer) {
-    let bestScore = Infinity;
+  if (isMaximizingPlayer) {
+    let bestScore = -Infinity;
     for (let i = 0; i < board.length; i++) {
       if (board[i] === '') {
         board[i] = currentPlayer;
         const score = minimaxR(board, depth + 1, false, alpha, beta);
         board[i] = '';
-        bestScore = Math.min(bestScore, score);
-        beta = Math.min(beta, bestScore);
+        bestScore = Math.max(bestScore, score);
+        alpha = Math.max(alpha, bestScore);
         if (beta <= alpha) {
           break;
         }
@@ -238,14 +277,14 @@ function minimaxR(board, depth, isMinimizingPlayer, alpha, beta) {
     }
     return bestScore;
   } else {
-    let bestScore = -Infinity;
+    let bestScore = Infinity;
     for (let i = 0; i < board.length; i++) {
       if (board[i] === '') {
         board[i] = currentPlayer;
         const score = minimaxR(board, depth + 1, true, alpha, beta);
         board[i] = '';
-        bestScore = Math.max(bestScore, score);
-        alpha = Math.max(alpha, bestScore);
+        bestScore = Math.min(bestScore, score);
+        beta = Math.min(beta, bestScore);
         if (beta <= alpha) {
           break;
         }
