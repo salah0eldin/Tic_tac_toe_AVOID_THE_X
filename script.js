@@ -17,7 +17,7 @@ let board;
 let togglecount = false;
 let endd = true;
 let gridnum;
-let indexs = [0,1,2,3,4,5,6,7,8];
+let indexs = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 // add event listeners to buttons
 startGameButton.addEventListener("click", startGame);
@@ -49,6 +49,45 @@ gridn.forEach((gridd) => {
         window.location.replace("index44.html");
     }
   })
+});
+
+let ordermoves = [];
+
+document.getElementById("Undo").addEventListener("click", function () {
+  let n = 1;
+  if ((currentPlayerCC === currentPlayerC || !endd) && gameMode === 'single')
+    n = 2;
+
+  if ((n === 1 && !endd) || (n == 2 && endd)) {
+    if (gameType === 'regular')
+      currentPlayer = currentPlayer === "X" ? "O" : "X";
+    currentPlayerC = currentPlayerC === "Black" ? "Blue" : "Black";
+  }
+  if (gameType === "regular")
+    updateGameMessage(`Player ${currentPlayer}'s turn`);
+  else
+    updateGameMessage(`${currentPlayerC}'s turn`);
+  for (; n > 0; n--) {
+    let x = ordermoves.pop();
+    board[x] = '';
+    cells[x].textContent = "";
+    cells[x].style.color = 'black';
+    if (endd) {
+      endd = false;
+      cells.forEach((cell) => {
+        cell.classList.remove('redblue');
+        cell.classList.remove('redblack');
+        cell.addEventListener("click", handleCellClick);
+      });
+      if (gameType === 'regular')
+        cells.forEach((cell) => {
+          if (cell.textContent === 'X')
+            cell.style.color = 'black';
+          else if (cell.textContent == 'O')
+            cell.style.color = 'blue';
+        });
+    }
+  }
 });
 
 // start a new game
@@ -98,6 +137,7 @@ function startGame() {
 
 // play a move
 function playMove(index) {
+  ordermoves.push(index);
   board[index] = currentPlayer;
   cells[index].textContent = currentPlayer;
   if (currentPlayerC === "Blue")
@@ -196,7 +236,7 @@ function minimax(board, depth, isMaximizingPlayer, playerMark, alpha, beta) {
 
 
 function computerMoveR() {
-  let bestScore = Infinity;
+  let bestScore = -Infinity;
   let move;
   indexs.sort(() => Math.random() - 0.5);
   for (let i of indexs) {
@@ -204,7 +244,7 @@ function computerMoveR() {
       board[i] = currentPlayer;
       let score = minimaxR(board, 0, false);
       board[i] = '';
-      if (score < bestScore) {
+      if (score > bestScore) {
         bestScore = score;
         move = i;
       }
@@ -213,34 +253,32 @@ function computerMoveR() {
   playMove(move);
 }
 
-function minimaxR(board, depth, isMinimizingPlayer) {
+function minimaxR(board, depth, isMaximizingPlayer) {
   if (checkForWinner(board, currentPlayer)) {
-    if (!isMinimizingPlayer)
+    if (isMaximizingPlayer)
       return 10 - depth;
     else
       return depth - 10;
   }
-  else if (!board.includes(''))
-    return 0;
-  if (isMinimizingPlayer) {
-    let bestScore = Infinity;
+  if (isMaximizingPlayer) {
+    let bestScore = -Infinity;
     for (let i = 0; i < board.length; i++) {
       if (board[i] === '') {
         board[i] = currentPlayer;
         const score = minimaxR(board, depth + 1, false);
         board[i] = '';
-        bestScore = Math.min(bestScore, score);
+        bestScore = Math.max(bestScore, score);
       }
     }
     return bestScore;
   } else {
-    let bestScore = -Infinity;
+    let bestScore = Infinity;
     for (let i = 0; i < board.length; i++) {
       if (board[i] === '') {
         board[i] = currentPlayer;
         const score = minimaxR(board, depth + 1, true);
         board[i] = '';
-        bestScore = Math.max(bestScore, score);
+        bestScore = Math.min(bestScore, score);
       }
     }
     return bestScore;
