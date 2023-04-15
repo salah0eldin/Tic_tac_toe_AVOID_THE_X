@@ -52,6 +52,7 @@ gridn.forEach((gridd) => {
 let ordermoves = [];
 
 document.getElementById("Undo").addEventListener("click", function () {
+  removebestmoves();
   let n = 1;
   if ((currentPlayerCC === currentPlayerC || !endd) && gameMode === 'single')
     n = 2;
@@ -135,6 +136,7 @@ function startGame() {
 
 // play a move
 function playMove(index) {
+  removebestmoves();
   ordermoves.push(index);
   board[index] = currentPlayer;
   cells[index].textContent = currentPlayer;
@@ -375,4 +377,44 @@ function handleCellClick() {
   if (this.textContent === "") {
     playMove(index);
   }
+}
+
+let Showbutton = document.getElementById("Show");
+let bestmoves = [];
+
+Showbutton.addEventListener("click", function () {
+  if (!endd) {
+    if (Showbutton.textContent == "Show best move") {
+      let bestScore = -Infinity;
+      for (let i of indexs) {
+        if (board[i] === '') {
+          board[i] = currentPlayer;
+          let score;
+          if (gameType === 'inverse')
+            score = minimaxR(board, 0, false, -Infinity, Infinity);
+          else
+            score = minimax(board, 0, false,currentPlayer, -Infinity, Infinity);
+          board[i] = '';
+          if (score > bestScore) {
+            bestScore = score;
+            bestmoves = [];
+            bestmoves.push(i);
+          }
+          else if (score == bestScore)
+            bestmoves.push(i);
+        }
+      }
+      Showbutton.textContent = "Hide best move";
+      for (let i of bestmoves)
+        cells[i].classList.add('Showb');
+    }
+    else
+      removebestmoves();
+  }
+});
+
+function removebestmoves() {
+  Showbutton.textContent = "Show best move";
+  for (let i = 0; i < 16; i++)
+    cells[i].classList.remove('Showb');
 }
