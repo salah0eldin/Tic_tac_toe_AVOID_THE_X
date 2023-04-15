@@ -390,6 +390,7 @@ let bestmoves = [];
 Showbutton.addEventListener("click", function () {
   if (!endd) {
     if (Showbutton.textContent == "Show best move") {
+      bestmoves = [];
       let bestScore = -Infinity;
       for (let i of indexs) {
         if (board[i] === '') {
