@@ -54,6 +54,7 @@ gridn.forEach((gridd) => {
 let ordermoves = [];
 
 document.getElementById("Undo").addEventListener("click", function () {
+  removebestmoves();
   let n = 1;
   if ((currentPlayerCC === currentPlayerC || !endd) && gameMode === 'single')
     n = 2;
@@ -137,6 +138,7 @@ function startGame() {
 
 // play a move
 function playMove(index) {
+  removebestmoves();
   ordermoves.push(index);
   board[index] = currentPlayer;
   cells[index].textContent = currentPlayer;
@@ -145,7 +147,6 @@ function playMove(index) {
 
   // check for winner
   const winner = checkWinner();
-
   if (winner) {
     endGame(winner);
   } else if (board.indexOf("") === -1) {
@@ -242,7 +243,7 @@ function computerMoveR() {
   for (let i of indexs) {
     if (board[i] === '') {
       board[i] = currentPlayer;
-      let score = minimaxR(board, 0, false);
+      let score = minimaxR(board, 0, false, -Infinity, Infinity);
       board[i] = '';
       if (score > bestScore) {
         bestScore = score;
@@ -253,7 +254,7 @@ function computerMoveR() {
   playMove(move);
 }
 
-function minimaxR(board, depth, isMaximizingPlayer) {
+function minimaxR(board, depth, isMaximizingPlayer, alpha, beta) {
   if (checkForWinner(board, currentPlayer)) {
     if (isMaximizingPlayer)
       return 10 - depth;
@@ -265,9 +266,13 @@ function minimaxR(board, depth, isMaximizingPlayer) {
     for (let i = 0; i < board.length; i++) {
       if (board[i] === '') {
         board[i] = currentPlayer;
-        const score = minimaxR(board, depth + 1, false);
+        const score = minimaxR(board, depth + 1, false, alpha, beta);
         board[i] = '';
         bestScore = Math.max(bestScore, score);
+        alpha = Math.max(alpha, bestScore);
+        if (beta <= alpha) {
+          break;
+        }
       }
     }
     return bestScore;
@@ -276,9 +281,13 @@ function minimaxR(board, depth, isMaximizingPlayer) {
     for (let i = 0; i < board.length; i++) {
       if (board[i] === '') {
         board[i] = currentPlayer;
-        const score = minimaxR(board, depth + 1, true);
+        const score = minimaxR(board, depth + 1, true, alpha, beta);
         board[i] = '';
         bestScore = Math.min(bestScore, score);
+        beta = Math.min(beta, bestScore);
+        if (beta <= alpha) {
+          break;
+        }
       }
     }
     return bestScore;
@@ -372,4 +381,44 @@ function handleCellClick() {
   if (this.textContent === "") {
     playMove(index);
   }
+}
+
+let Showbutton = document.getElementById("Show");
+let bestmoves = [];
+
+Showbutton.addEventListener("click", function () {
+  if (!endd) {
+    if (Showbutton.textContent == "Show best move") {
+      let bestScore = -Infinity;
+      for (let i of indexs) {
+        if (board[i] === '') {
+          board[i] = currentPlayer;
+          let score;
+          if (gameType === 'inverse')
+            score = minimaxR(board, 0, false, -Infinity, Infinity);
+          else
+            score = minimax(board, 0, false,currentPlayer, -Infinity, Infinity);
+          board[i] = '';
+          if (score > bestScore) {
+            bestScore = score;
+            bestmoves = [];
+            bestmoves.push(i);
+          }
+          else if (score == bestScore)
+            bestmoves.push(i);
+        }
+      }
+      Showbutton.textContent = "Hide best move";
+      for (let i of bestmoves)
+        cells[i].classList.add('Showb');
+    }
+    else
+      removebestmoves();
+  }
+});
+
+function removebestmoves() {
+  Showbutton.textContent = "Show best move";
+  for (let i = 0; i < 9; i++)
+    cells[i].classList.remove('Showb');
 }
