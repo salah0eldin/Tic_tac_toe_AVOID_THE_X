@@ -91,6 +91,7 @@ document.getElementById("Undo").addEventListener("click", function () {
 
 // start a new game
 function startGame() {
+  removebestmoves();
   endd = false;
   gridnum = getSelectedRadioValue(gridn);
   if (gridnum === "33")
