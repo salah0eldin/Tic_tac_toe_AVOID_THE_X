@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
 
-:root {
-  --blackp: 0%;
-  --bluep: 0%;
-  --tiep: 0%;
-}
-
 /* font family */
 body {
   font-family: 'Montserrat', sans-serif;
@@ -30,7 +24,8 @@ h1 {
 /* game board */
 #game,
 #game-message,
-#radios {
+#radios ,
+.iterations {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,6 +33,8 @@ h1 {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  width: 95%;
+  align-self: center;
 }
 
 #game-message {
@@ -180,7 +177,7 @@ label {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, auto);
-  grid-gap: 1px;
+  grid-gap: 1px; 
 }
 
 .radioo:nth-child(1),
@@ -197,4 +194,18 @@ label {
   border-color: #58b368;
   box-shadow: 0 0 10px 0 #58b368;
   background-color: #ffffff;
+}
+
+.iterations {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 40px;
+  padding: 10px;
+  margin:1px;
+}
+
+.with,.without{
+  margin : 5px;
+  color:#58b368;
 }
