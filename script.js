@@ -177,7 +177,7 @@ function playMove(index) {
 function computerMove() {
   let bestScore = -Infinity;
   let move;
-  indexs.sort(() => Math.random() - 0.5);
+  //indexs.sort(() => Math.random() - 0.5);
   for (let i of indexs) {
     if (board[i] === '') {
       board[i] = currentPlayer;
@@ -196,9 +196,9 @@ function minimax(board, depth, isMaximizingPlayer, playerMark, alpha, beta) {
   let opponentMark;
   playerMark === 'X' ? opponentMark = 'O' : opponentMark = 'X';
   if (checkForWinner(board, playerMark)) {
-    return 11 - depth;
+    return 10 - depth;
   } else if (checkForWinner(board, opponentMark)) {
-    return depth - 11;
+    return depth - 10;
   } else if (!board.includes('')) {
     return 0;
   }
@@ -240,7 +240,7 @@ function minimax(board, depth, isMaximizingPlayer, playerMark, alpha, beta) {
 function computerMoveR() {
   let bestScore = -Infinity;
   let move;
-  indexs.sort(() => Math.random() - 0.5);
+  //indexs.sort(() => Math.random() - 0.5);
   for (let i of indexs) {
     if (board[i] === '') {
       board[i] = currentPlayer;
