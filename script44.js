@@ -16,6 +16,7 @@ let gameMode;
 let board;
 let togglecount = false;
 let endd = true;
+
 let indexs = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
 
 // add event listeners to buttons
@@ -121,6 +122,7 @@ function startGame() {
     cell.addEventListener("click", handleCellClick);
   });
 
+
   // update game message
   if (gameType === "regular")
     updateGameMessage(`Player ${currentPlayer}'s turn`);
@@ -146,7 +148,6 @@ function playMove(index) {
 
   // check for winner
   const winner = checkWinner();
-
   if (winner) {
     endGame(winner);
   } else if (board.indexOf("") === -1) {
