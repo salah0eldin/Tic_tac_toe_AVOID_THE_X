@@ -1,5 +1,4 @@
 // get DOM elements
-const bodyId = document.body.id; // 3*3 or 4*4
 const cells = document.querySelectorAll(".cell");
 const startGameButton = document.getElementById("start-game");
 const undoButton = document.getElementById("Undo");
@@ -45,12 +44,7 @@ function startGame() {
     gameType = getSelectedRadioValue(gameTypeRadios);
     gameMode = getSelectedRadioValue(gameModeRadios);
 
-    if (gridnum === "44" && bodyId === "3*3")
-        window.location.replace("index44.html");
-    else if (gridnum === "33" && bodyId === "4*4")
-        window.location.replace("index.html");
-
-    if (bodyId === "3*3") {
+    if (gridnum === "33") {
         board = ["", "", "", "", "", "", "", "", ""];
         indexs = [0, 1, 2, 3, 4, 5, 6, 7, 8];
         winningCombos = [
@@ -151,11 +145,8 @@ function computerMove() {
             }
         }
     }
-    withAlphaBeta.textContent = numberOfIteratoins;
-    console.log(withAlphaBeta.textContent);
-    playMove(move);
+    let numberOfIteratoins1 = numberOfIteratoins;
     numberOfIteratoins = 0;
-    board[move] = '';
     for (let i of indexs) {
         if (board[i] === '') {
             board[i] = currentPlayer;
@@ -167,8 +158,9 @@ function computerMove() {
             }
         }
     }
-    board[move] = tempcurrentplayer;
+    withAlphaBeta.textContent = numberOfIteratoins1;    
     withoutAlphaBeta.textContent = numberOfIteratoins;
+    playMove(move);
 }
 
 // minimax wtih alpha beta function
@@ -399,13 +391,13 @@ function removebestmoves() {
 //check if grid number (3*3 or 4*4) is changed after end
 gridn.forEach((gridd) => {
     gridd.addEventListener('click', () => {
-        if (endd) {
+        
             gridnum = getSelectedRadioValue(gridn);
             if (gridnum === "33")
                 window.location.replace("index.html");
             else
                 window.location.replace("index44.html");
-        }
+        
     })
 });
 
@@ -428,10 +420,10 @@ gameModeRadios.forEach((radioo) => {
 
 // undo functoin
 undoButton.addEventListener("click", function () {
-    
+
     withAlphaBeta.textContent = 0;
     withoutAlphaBeta.textContent = 0;
-    
+
     removebestmoves();
     let n = 1;
     if ((currentPlayerCC === currentPlayerC || !endd) && gameMode === 'single')
