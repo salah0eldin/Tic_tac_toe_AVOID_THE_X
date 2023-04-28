@@ -2,15 +2,6 @@
 <html>
 
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-1P94TYQCKN"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-1P94TYQCKN');
-</script>
   <meta charset="UTF-8" />
   <title>Tic Tac Toe</title>
   <link rel="stylesheet" href="style.css" />
@@ -39,7 +30,16 @@
 
 <body id="4*4">
   <div class="container">
-    <h1>ALGEBROS</h1>
+    <h1>
+      <p id="title">ALGEBROS</p>
+      <div id="download">
+        <a href="files/AvoidTheXs.apk" download>
+          <img src="files/logo.png" alt="Image" width="80">
+          <br>
+          <p id="downloadText">Download game</p>
+      </div>
+      </a>
+    </h1>
     <div id="game-message">CLICK START</div>
     <br />
     <div id="game">
@@ -104,8 +104,12 @@
         </div>
       </div>
       <div class="iterations">
-        <div class="divwith" style="margin-bottom:0px;">Iterations with alpha beta :<br><p class="with">0</p></div>
-        <div class="divwithout" style = "margin-bottom:0px;">without :<br><p class="without">0</p></div>
+        <div class="divwith" style="margin-bottom:0px;">Iterations with alpha beta :<br>
+          <p class="with">0</p>
+        </div>
+        <div class="divwithout" style="margin-bottom:0px;">without :<br>
+          <p class="without">0</p>
+        </div>
       </div>
       <div class="buttonn">
         <div>
