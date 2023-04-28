@@ -1,32 +1,44 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
 
+:root{
+  --screen-width: 100vw;
+  --max-height: 100vh;
+}
+
 /* font family */
 body {
   font-family: 'Montserrat', sans-serif;
+  align-content: center;
 }
 
 /* container */
 .container {
   height: fit-content;
-  width: max-content;
+  width: 95%;
   margin: 0 auto;
   text-align: center;
+  
 }
-
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 /* heading */
 h1 {
   display: flex;
+  align-content: center;
   align-items: center;
 }
 
 #title {
-  font-size: 2em;
+  font-size: calc(var(--screen-width)/12);
   margin: 10px;
 }
 
 #downloadText {
-  font-size: 0.4em;
-  margin :0;
+  font-size: 0.8em;
+  margin: 0;
 }
 
 a:link {
@@ -41,7 +53,6 @@ a:visited {
 
 #download {
   display: inline-block;
-  color: white;
   text-align: center;
   padding: 0.5em 1em;
   border-radius: 0.5em;
@@ -53,25 +64,28 @@ a:visited {
   transform: translateY(2px);
 }
 
-
 /* game board */
 #game,
 #game-message,
-#radios ,
+#radios,
 .iterations {
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #ffffff;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-  width: 95%;
   align-self: center;
 }
 
+#game-message,
+#radios{
+
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
 #game-message {
-  font-size: 24px;
+  font-size: calc(var(--screen-width)/20);
   font-weight: bold;
   text-align: center;
   color: #2a2a2a;
@@ -83,15 +97,15 @@ a:visited {
 }
 
 .cell {
-  width: 100px;
-  height: 100px;
+  width: calc(var(--screen-width)/5);
+  height:calc(var(--screen-width)/5);
+  font-size: calc(var(--screen-width)/10);
   border: 2px solid #cccccc;
-  border-radius: 10px;
+  border-radius: 20px;
   margin: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 4em;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -131,11 +145,12 @@ a:visited {
   display: flex;
   flex-direction: column;
   align-content: center;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 #radios {
   align-self: center;
+  margin-top: 30px;
 }
 
 #options div {
@@ -157,13 +172,9 @@ button {
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  font-size: 1.1em;
+  font-size: calc(var(--screen-width)/30);
   margin-right: 30px;
   margin-left: 30px;
-}
-
-#start-game {
-  margin-top:-30px;
 }
 
 button:hover {
@@ -183,8 +194,8 @@ input[type="radio"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   border: 2px solid #ccc;
   margin-right: 10px;
@@ -202,7 +213,7 @@ input[type="radio"]:focus {
 }
 
 label {
-  font-size: 16px;
+  font-size: calc(var(--screen-width)/35);
   cursor: pointer;
 }
 
@@ -210,7 +221,7 @@ label {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, auto);
-  grid-gap: 1px; 
+  grid-gap: 1px;
 }
 
 .radioo:nth-child(1),
@@ -235,10 +246,20 @@ label {
   justify-content: center;
   gap: 40px;
   padding: 10px;
-  margin:1px;
+  margin: 1px;
+  margin-top: calc(var(--max-height)/50);
+  font-size: calc(var(--screen-width)/30);
 }
 
-.with,.without{
-  margin : 5px;
-  color:#58b368;
+.with,
+.without {
+  margin: 5px;
+  color: #58b368;
+}
+
+footer {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
