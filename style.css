@@ -17,6 +17,11 @@ body {
 
 }
 
+.swal2-popup {
+  width: 70% !important;
+  font-size: 40px;
+}
+
 /* container */
 .container {
   height: fit-content;

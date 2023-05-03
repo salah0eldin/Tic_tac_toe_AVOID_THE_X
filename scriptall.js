@@ -508,14 +508,19 @@ document.body.style.zoom = ((window.innerHeight / window.innerWidth > 1.7) ?
 
 //check if in the app
 if (window.self !== window.top) {
-    document.querySelector('#downloadText').textContent = 'Go to site';
+    document.querySelector('#downloadText').textContent = 'Link to site';
     var downloadLink = document.querySelector('#download a');
     downloadLink.href = 'https://salah0eldin.github.io/Tic_tac_toe_AVOID_THE_X';
 
     downloadLink.addEventListener('click', function (event) {
         event.preventDefault();
         navigator.clipboard.writeText(downloadLink.href);
-        alert('Link copied to clipboard!');
+        Swal.fire({
+            title: 'Website Link',
+            html: downloadLink.href,
+            confirmButtonText: 'OK'
+          });
+          
     });
 
 }
