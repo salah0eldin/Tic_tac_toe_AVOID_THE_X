@@ -501,7 +501,18 @@ gameModeRadios.forEach((radioo) => {
 
 //zoom contorl
 document.body.style.zoom = ((window.innerHeight / window.innerWidth > 1.7) ?
-    (window.innerWidth / 1050) :
+    (window.innerWidth / 1100) :
     (window.innerHeight / (document.body.offsetHeight + 200)));
 
 //------------------------------------------------------------------------------------------------------------------------------------
+
+//check if in the app
+if (window.self == window.top) {
+    document.querySelector('#downloadText').textContent = 'Go to site';
+    var linkObject = document.querySelector('#download a');
+    linkObject.href = 'https://salah0eldin.github.io/Tic_tac_toe_AVOID_THE_X';
+    linkObject.downloadLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        window.open(linkObject.href, '_system');
+    });
+}
