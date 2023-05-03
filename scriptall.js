@@ -2,7 +2,7 @@
 const cells = document.querySelectorAll(".cell");
 const startGameButton = document.getElementById("start-game");
 const undoButton = document.getElementById("Undo");
-const Showbutton = document.getElementById("Show");
+const showButton = document.getElementById("Show");
 const gameTypeRadios = document.getElementsByName("game-type"); // regular or reverse radios
 const gameModeRadios = document.getElementsByName("game-mode"); // single or two-players radios
 const gridn = document.getElementsByName("gridn"); // 3*3 or 4*4 radios
@@ -10,15 +10,17 @@ const messageElement = document.getElementById("game-message");
 const withAlphaBeta = document.querySelector('.with');
 const withoutAlphaBeta = document.querySelector('.without');
 
+//------------------------------------------------------------------------------------------------------------------------------------
+
 // game variables
 let currentPlayer; // X or O
 let currentPlayerC; // Blue or Black
 let currentPlayerCC = "Blue"; // computer color player
 let gameType; // regular or reverse
 let gameMode; // single or two-players
+let gridnum; // 3*3 or 4*4
 let togglecount = false; // how playes first
 let endd = true; // if game is end
-let gridnum; // 3*3 or 4*4
 let numberOfIteratoins = 0;
 let ordermoves = []; // records the history of moves
 let board = [];
@@ -26,12 +28,17 @@ let indexs = [];
 let winningCombos = [];
 let bestmoves = [];
 
+//------------------------------------------------------------------------------------------------------------------------------------
+
 // add event listeners to buttons
 startGameButton.addEventListener("click", startGame);
+showButton.addEventListener("click", showBestMoves);
+undoButton.addEventListener("click", undoLastMove);
+
+//------------------------------------------------------------------------------------------------------------------------------------
 
 // start a new game
 function startGame() {
-
 
     withAlphaBeta.textContent = 0;
     withoutAlphaBeta.textContent = 0;
@@ -91,6 +98,8 @@ function startGame() {
     }
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------
+
 // play a move
 function playMove(index) {
 
@@ -127,6 +136,8 @@ function playMove(index) {
     }
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------
+
 // function computer move
 function computerMove() {
     numberOfIteratoins = 0;
@@ -158,10 +169,12 @@ function computerMove() {
             }
         }
     }
-    withAlphaBeta.textContent = numberOfIteratoins1;    
+    withAlphaBeta.textContent = numberOfIteratoins1;
     withoutAlphaBeta.textContent = numberOfIteratoins;
     playMove(move);
 }
+
+//------------------------------------------------------------------------------------------------------------------------------------
 
 // minimax wtih alpha beta function
 function minimax(board, depth, isMaximizingPlayer, playerMark, alpha, beta) {
@@ -221,6 +234,8 @@ function minimax(board, depth, isMaximizingPlayer, playerMark, alpha, beta) {
     }
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------
+
 // minimax function only
 function minimaxonly(board, depth, isMaximizingPlayer, playerMark) {
     numberOfIteratoins++;
@@ -272,11 +287,14 @@ function minimaxonly(board, depth, isMaximizingPlayer, playerMark) {
     }
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------
+
 // checks if there is a 3 or 4 in a row
 function checkBoard(board, mark) {
     return winningCombos.some(combo => combo.every(index => board[index] === mark));
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------
 
 // check if there is a winner
 function checkWinner() {
@@ -313,6 +331,8 @@ function checkWinner() {
     return test;
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------
+
 // end the game
 function endGame(winner) {
     endd = true;
@@ -330,6 +350,8 @@ function endGame(winner) {
     }
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------
+
 // get the value of the selected radio button
 function getSelectedRadioValue(radios) {
     for (let radio of radios) {
@@ -339,10 +361,14 @@ function getSelectedRadioValue(radios) {
     }
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------
+
 // update the game message
 function updateGameMessage(message) {
     messageElement.textContent = message;
 }
+
+//------------------------------------------------------------------------------------------------------------------------------------
 
 //changing content when click
 function handleCellClick() {
@@ -352,10 +378,12 @@ function handleCellClick() {
     }
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------
+
 // show the best moves function
-Showbutton.addEventListener("click", function () {
+function showBestMoves() {
     if (!endd) {
-        if (Showbutton.textContent == "Show best move") {
+        if (showButton.textContent == "Show best move") {
             bestmoves = [];
             let bestScore = -Infinity;
             for (let i of indexs) {
@@ -372,54 +400,28 @@ Showbutton.addEventListener("click", function () {
                         bestmoves.push(i);
                 }
             }
-            Showbutton.textContent = "Hide best move";
+            showButton.textContent = "Hide best move";
             for (let i of bestmoves)
                 cells[i].classList.add('Showb');
         }
         else
             removebestmoves();
     }
-});
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------
 
 // remove best moves function
 function removebestmoves() {
-    Showbutton.textContent = "Show best move";
+    showButton.textContent = "Show best move";
     for (let i = 0; i < board.length; i++)
         cells[i].classList.remove('Showb');
 }
 
-//check if grid number (3*3 or 4*4) is changed after end
-gridn.forEach((gridd) => {
-    gridd.addEventListener('click', () => {
-        
-            gridnum = getSelectedRadioValue(gridn);
-            if (gridnum === "33")
-                window.location.replace("index.html");
-            else
-                window.location.replace("index44.html");
-        
-    })
-});
-
-//check if game type radioo pressed and if single change
-gameModeRadios.forEach((radioo) => {
-    radioo.addEventListener('click', () => {
-        if (!endd) {
-            gameMode = getSelectedRadioValue(gameModeRadios);
-            if (gameMode === 'single') {
-                currentPlayerCC = currentPlayerC;
-                computerMove();
-            }
-            else {
-                withAlphaBeta.textContent = 0;
-                withoutAlphaBeta.textContent = 0;
-            }
-        }
-    })
-});
+//------------------------------------------------------------------------------------------------------------------------------------
 
 // undo functoin
-undoButton.addEventListener("click", function () {
+function undoLastMove() {
 
     withAlphaBeta.textContent = 0;
     withoutAlphaBeta.textContent = 0;
@@ -459,4 +461,47 @@ undoButton.addEventListener("click", function () {
                 });
         }
     }
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------
+
+//check if grid number (3*3 or 4*4) is changed after end
+gridn.forEach((gridd) => {
+    gridd.addEventListener('click', () => {
+
+        gridnum = getSelectedRadioValue(gridn);
+        if (gridnum === "33")
+            window.location.replace("index.html");
+        else
+            window.location.replace("index44.html");
+
+    })
 });
+
+//------------------------------------------------------------------------------------------------------------------------------------
+
+//check if game type radioo pressed and if single change
+gameModeRadios.forEach((radioo) => {
+    radioo.addEventListener('click', () => {
+        if (!endd) {
+            gameMode = getSelectedRadioValue(gameModeRadios);
+            if (gameMode === 'single') {
+                currentPlayerCC = currentPlayerC;
+                computerMove();
+            }
+            else {
+                withAlphaBeta.textContent = 0;
+                withoutAlphaBeta.textContent = 0;
+            }
+        }
+    })
+});
+
+//------------------------------------------------------------------------------------------------------------------------------------
+
+//zoom contorl
+document.body.style.zoom = ((window.innerHeight / window.innerWidth > 1.7) ?
+    (window.innerWidth / 1050) :
+    (window.innerHeight / (document.body.offsetHeight + 200)));
+
+//------------------------------------------------------------------------------------------------------------------------------------
