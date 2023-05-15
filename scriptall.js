@@ -28,6 +28,8 @@ let indexs = [];
 let winningCombos = [];
 let bestmoves = [];
 
+var audio = new Audio('files/winn.ogg');
+
 //------------------------------------------------------------------------------------------------------------------------------------
 
 // add event listeners to buttons
@@ -362,6 +364,7 @@ function endGame(winner) {
                 var winnerplayer = 'YOU win';
                 if (currentPlayerC != currentPlayerCC)
                     winnerplayer = 'Computer wins';
+                    else audio.play();
                 Swal.fire({
                     title: `${winnerplayer}!`,
                     confirmButtonText: 'OK'
