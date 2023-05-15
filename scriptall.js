@@ -344,9 +344,37 @@ function endGame(winner) {
     // update game message
     if (winner === "tie") {
         updateGameMessage("It is a tie!");
+        Swal.fire({
+            title: 'It is a tie!',
+            confirmButtonText: 'OK'
+        });
     } else {
-        if (gameType === "regular") updateGameMessage(`Player ${currentPlayer} wins!`);
-        else updateGameMessage(`${currentPlayerC} loses!`);
+        if (gameType === "regular") {
+            updateGameMessage(`Player ${currentPlayer} wins!`);
+            Swal.fire({
+                title: `Player ${currentPlayer} wins!`,
+                confirmButtonText: 'OK'
+            });
+        }
+        else {
+            if (gameMode === 'single') {
+                updateGameMessage(`${currentPlayerC} loses!`);
+                var winnerplayer = 'YOU win';
+                if (currentPlayerC != currentPlayerCC)
+                    winnerplayer = 'Computer wins';
+                Swal.fire({
+                    title: `${winnerplayer}!`,
+                    confirmButtonText: 'OK'
+                });
+            }
+            else {
+                updateGameMessage(`${currentPlayerC} loses!`);
+                Swal.fire({
+                    title: `${currentPlayerC} loses!`,
+                    confirmButtonText: 'OK'
+                });
+            }
+        }
     }
 }
 
@@ -519,8 +547,8 @@ if (window.self !== window.top) {
             title: 'Website Link',
             html: downloadLink.href,
             confirmButtonText: 'OK'
-          });
-          
+        });
+
     });
 
 }
