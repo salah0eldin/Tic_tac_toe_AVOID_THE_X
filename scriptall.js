@@ -28,7 +28,10 @@ let indexs = [];
 let winningCombos = [];
 let bestmoves = [];
 
-var audio = new Audio('files/winn.ogg');
+var s = 0;
+var audiowin1 = new Audio('files/winn1.ogg');
+var audiowin2 = new Audio('files/winn2.ogg');
+var audiolose = new Audio('files/lose.ogg');
 
 //------------------------------------------------------------------------------------------------------------------------------------
 
@@ -353,6 +356,9 @@ function endGame(winner) {
     } else {
         if (gameType === "regular") {
             updateGameMessage(`Player ${currentPlayer} wins!`);
+            if (gameMode === 'single' && currentPlayerC === currentPlayerCC){
+                audiolose.play();
+            }
             Swal.fire({
                 title: `Player ${currentPlayer} wins!`,
                 confirmButtonText: 'OK'
@@ -362,9 +368,14 @@ function endGame(winner) {
             if (gameMode === 'single') {
                 updateGameMessage(`${currentPlayerC} loses!`);
                 var winnerplayer = 'YOU win';
-                if (currentPlayerC != currentPlayerCC)
+                if (currentPlayerC != currentPlayerCC){
                     winnerplayer = 'Computer wins';
-                    else audio.play();
+                    audiolose.play();
+                }
+                else if(s = !s) 
+                audiowin1.play();
+                else
+                audiowin2.play();
                 Swal.fire({
                     title: `${winnerplayer}!`,
                     confirmButtonText: 'OK'
@@ -555,5 +566,5 @@ if (window.self !== window.top) {
     });
 
 }
-
+ 
 //------------------------------------------------------------------------------------------------------------------------------------
