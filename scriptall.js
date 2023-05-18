@@ -17,7 +17,7 @@ let currentPlayer; // X or O
 let currentPlayerC; // Blue or Black
 let currentPlayerCC = "Blue"; // computer color player
 let gameType; // regular or reverse
-let gameMode = 'single'; // single or two-players
+let gameMode; // single or two-players
 let gridnum; // 3*3 or 4*4
 let togglecount = false; // how playes first
 let endd = true; // if game is end
@@ -37,8 +37,8 @@ var audiolose = new Audio('files/lose.ogg');
 
 // add event listeners to buttons
 startGameButton.addEventListener("click", startGame);
-//showButton.addEventListener("click", showBestMoves);
-//undoButton.addEventListener("click", undoLastMove);
+showButton.addEventListener("click", showBestMoves);
+undoButton.addEventListener("click", undoLastMove);
 
 //------------------------------------------------------------------------------------------------------------------------------------
 
@@ -54,7 +54,7 @@ function startGame() {
 
     gridnum = getSelectedRadioValue(gridn);
     gameType = getSelectedRadioValue(gameTypeRadios);
-    //gameMode = getSelectedRadioValue(gameModeRadios);
+    gameMode = getSelectedRadioValue(gameModeRadios);
 
     if (gridnum === "33") {
         board = ["", "", "", "", "", "", "", "", ""];
@@ -523,7 +523,7 @@ gridn.forEach((gridd) => {
 //------------------------------------------------------------------------------------------------------------------------------------
 
 //check if game type radioo pressed and if single change
-/*gameModeRadios.forEach((radioo) => {
+gameModeRadios.forEach((radioo) => {
     radioo.addEventListener('click', () => {
         if (!endd) {
             gameMode = getSelectedRadioValue(gameModeRadios);
@@ -538,7 +538,7 @@ gridn.forEach((gridd) => {
         }
     })
 });
-*/
+
 //------------------------------------------------------------------------------------------------------------------------------------
 
 //zoom contorl
